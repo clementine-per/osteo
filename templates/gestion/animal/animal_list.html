@@ -14,7 +14,7 @@
         <tbody>
         {% for animal in animal_list %}
         <tr class="table-info">
-            <td>{{animal.name}}</td>
+            <td><a href= "{% url 'detail_animal' animal.id %}">{{animal.name}}</a></td>
             <td>{{animal.get_type_display}}</td>
             <td>{{animal.get_sex_display}}</td>
         </tr>

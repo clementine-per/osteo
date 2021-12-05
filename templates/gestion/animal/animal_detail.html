@@ -1,0 +1,62 @@
+{% extends "gestion/base.html" %}
+{% block content %}
+<div class="row p-4">
+    <div class="col-sm-12 mt-3">
+        <div class="card">
+            <div class="card-header">
+                Informations générales
+                </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Nom </strong> : {{animal.name}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Sexe </strong> : {{animal.get_sex_display}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Type </strong> : {{animal.get_type_display}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Race </strong> : {{animal.race}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Identification </strong> : {{animal.identification}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Date de naissance </strong> : {{animal.birth_date|date:'d F Y'|default:" - "}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Lieu de vie </strong> : {{animal.living_place}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Alimentation </strong> : {{animal.food}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Activités </strong> : {{animal.activities}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Lieu d'adoption </strong> :  {{ animal.get_origin_display }} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Age d'adoption </strong> : {{animal.adoption_age}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Stérilisé </strong> :  {{ animal.get_sterilised_display }} <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
