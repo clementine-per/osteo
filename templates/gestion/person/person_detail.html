@@ -1,0 +1,81 @@
+{% extends "gestion/base.html" %}
+{% block content %}
+<div class="row p-4">
+    <div class="col-sm-12 mt-3">
+        <div class="card">
+            <div class="card-header">
+                Coordonnées
+                <a href= "{% url 'update_person' person.id %}" class="close">
+                    <i class="fas fa-pen"></i>
+                </a>
+                </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Prénom </strong> : {{person.first_name}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Nom </strong> : {{person.last_name}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Email </strong> : {{person.email}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Téléphone </strong> : {{person.telephone}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <strong> Adresse </strong> : {{person.get_complete_address}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <strong> Commentaire </strong> : {{person.commentaire}} <br>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row p-4">
+    <div class="col-sm-12 mt-3">
+        <div class="card">
+            <div class="card-header">
+                Liste des animaux
+            </div>
+            <div class="table-responsive-sm p-4">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Sexe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for animal in person.animal_set.all %}
+                        <tr class="table-info">
+                            <td><a href = "{% url 'detail_animal' animal.id %}"> {{animal.name}}</a></td>
+                            <td>{{animal.get_type_display}}</td>
+                            <td>{{animal.get_sex_display}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-right">
+    <a href= "{% url 'create_animal' %}?proprietaire={{person.id}}" class="btn btn-info">Ajouter animal</a>
+</div>
+
+
+
+
+{% endblock %}

@@ -3,10 +3,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator, EmptyPage
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
-from gestion.forms.animals import AnimalCreateForm
+from gestion.forms.animal import AnimalForm
 from gestion.models.animal import Animal
+from gestion.models.person import Person
 
 
 @login_required()
@@ -29,8 +30,8 @@ def animal_list(request):
 
 class CreateAnimal(LoginRequiredMixin, CreateView):
     model = Animal
-    form_class = AnimalCreateForm
-    template_name = "gestion/animal/animal_create_form.html"
+    form_class = AnimalForm
+    template_name = "gestion/animal/animal_form.html"
 
     def get_success_url(self):
         return reverse_lazy("animals")
@@ -38,4 +39,25 @@ class CreateAnimal(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(CreateAnimal, self).get_context_data(**kwargs)
         context['title'] = "Créer un animal"
+        return context
+
+    def get_form(self, form_class=None):
+        form = CreateView.get_form(self, form_class=form_class)
+        id_proprietaire = self.request.GET.get("proprietaire", "")
+        if id_proprietaire:
+            proprietaire = Person.objects.get(id=id_proprietaire)
+            form.fields["proprietaire"].initial = proprietaire
+        return form
+
+class UpdateAnimal(LoginRequiredMixin, UpdateView):
+    model = Animal
+    form_class = AnimalForm
+    template_name = "gestion/animal/animal_form.html"
+
+    def get_success_url(self):
+        return reverse_lazy("detail_animal", kwargs={"pk": self.object.id})
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdateAnimal, self).get_context_data(**kwargs)
+        context['title'] = "Mettre à jour " + str(self.object.name)
         return context

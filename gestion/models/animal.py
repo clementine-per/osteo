@@ -3,6 +3,7 @@ from enum import Enum
 from django.db import models
 
 from gestion.models import OuiNonChoice
+from gestion.models.person import Person
 
 
 class AnimalTypeChoice(Enum):
@@ -58,6 +59,11 @@ class Animal(models.Model):
     )
     identification = models.CharField(
         max_length=150, verbose_name="Numéro d'identification", blank=True
+    )
+    proprietaire = models.ForeignKey(
+        Person,
+        verbose_name="Propriétaire",
+        on_delete=models.PROTECT,
     )
     # Uniquement pour les chevaux
     meadow_address = models.CharField(verbose_name="Adresse du pré", max_length=300, blank=True)

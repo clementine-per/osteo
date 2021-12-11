@@ -1,14 +1,16 @@
 from django.forms import ModelForm
 
 from gestion.models.animal import Animal
+from gestion.models.person import Person
 
 
-class AnimalCreateForm(ModelForm):
+class AnimalForm(ModelForm):
     # Pour mettre les champs obligatoires en gras
     required_css_class = 'required'
     class Meta:
         model = Animal
         fields = (
+            "proprietaire",
             "name",
             "sex",
             "type",
@@ -25,5 +27,6 @@ class AnimalCreateForm(ModelForm):
         )
 
     def __init__(self, *args, **kwargs):
-        super(AnimalCreateForm, self).__init__(*args, **kwargs)
+        super(AnimalForm, self).__init__(*args, **kwargs)
         self.fields['birth_date'].widget.attrs['class'] = 'datePicker'
+        self.fields["proprietaire"].queryset = Person.objects.order_by('last_name')

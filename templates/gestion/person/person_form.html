@@ -7,7 +7,11 @@
     <br/>
     <div class="row">
         <div class="col">
-            <a href = "{% url 'animals' %}"  class="btn btn-secondary">Annuler</a>
+            {% if object %}
+            <a href = "{% url 'detail_person' object.id %}"  class="btn btn-secondary">Annuler</a>
+   		    {% else %}
+   			<a href = "{% url 'persons' %}"  class="btn btn-secondary">Annuler</a>
+   		    {% endif %}
         </div>
         <div class="col">
             <input class="btn btn-info" type="submit" />
