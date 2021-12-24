@@ -70,4 +70,107 @@
         </div>
     </div>
 </div>
+
+<div class="row p-4">
+    <div class="col-sm-12 mt-3">
+        <div class="card">
+            <div class="card-header">
+                Informations médicales
+                <a href= "{% url 'update_medical_info' animal.medical_info.id %}" class="close">
+                    <i class="fas fa-pen"></i>
+                </a>
+                </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Date de dernière consultation ostéopathique </strong>
+                        : {{animal.medical_info.last_consult_date|default:" - "}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Vacciné(e) </strong>
+                        : {{animal.medical_info.get_vaccinated_display}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Traité(e) APE/API </strong>
+                        : {{animal.medical_info.get_ape_api_display}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Antécédents médicaux </strong>
+                        : {{animal.medical_info.antecedents}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Chirurgie(s) </strong>
+                        : {{animal.medical_info.surgeries}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Troubles locomoteurs </strong>
+                        : {{animal.medical_info.locomotor_disorders}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Traitements passés </strong>
+                        : {{animal.medical_info.past_treatments}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Traitements actuels </strong>
+                        : {{animal.medical_info.current_treatments}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Comportement </strong>
+                        : {{animal.medical_info.behaviour}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Autres </strong>
+                        :  {{ animal.medical_info.other }} <br>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row p-4">
+    <div class="col-sm-12 mt-3">
+        <div class="card">
+            <div class="card-header">
+                Liste des consultations
+            </div>
+            <div class="table-responsive-sm p-4">
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Motif de Consultation</th>
+                            <th scope="col">Bilan ostéopathique</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for consultation in animal.consultation_set.all %}
+                        <tr class="table-info">
+                            <td>
+                                <a href = "{% url 'detail_consultation' consultation.id %}">
+                                    {{consultation.date|default:" - "}}
+                                </a>
+                            </td>
+                            <td>{{consultation.reason}}</td>
+                            <td>{{consultation.summary}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-right">
+    <a href= "{% url 'create_consultation' animal.id %}" class="btn btn-info">Ajouter une consultation</a>
+</div>
 {% endblock %}

@@ -1,7 +1,11 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Form, CharField
 
 from gestion.models.person import Person
 
+
+class PersonSearchForm(Form):
+    last_name = CharField(max_length=150, required=False, label="Nom")
+    city = CharField(max_length=150, required=False, label="Ville")
 
 class PersonForm(ModelForm):
     # Pour mettre les champs obligatoires en gras

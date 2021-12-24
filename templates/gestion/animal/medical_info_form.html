@@ -1,0 +1,17 @@
+{% extends "gestion/base.html" %}
+{% block content %}
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+    <br/>
+    <div class="row">
+        <div class="col">
+            <a href = "{% url 'detail_animal' object.animal.id %}"  class="btn btn-secondary">Annuler</a>
+        </div>
+        <div class="col">
+            <input class="btn btn-info" type="submit" />
+        </div>
+    </div>
+</form>
+{% endblock %}

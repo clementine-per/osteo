@@ -30,6 +30,27 @@ class OriginChoice(Enum):
     DIVAGATION = "Divagation"
 
 
+class MedicalInfo(models.Model):
+    last_consult_date = models.DateField(verbose_name="Date de dernière consultation ostéopathique", null=True, blank=True)
+    vaccinated = models.CharField(
+        max_length=3,
+        verbose_name="Vacciné(e)",
+        choices=[(tag.name, tag.value) for tag in OuiNonChoice],
+    )
+    ape_api = models.CharField(
+        max_length=3,
+        verbose_name="Traité(e) APE/API",
+        choices=[(tag.name, tag.value) for tag in OuiNonChoice],
+    )
+    antecedents = models.CharField(verbose_name="Antécédents médicaux", max_length=300, blank=True)
+    surgeries = models.CharField(verbose_name="Chirurgie(s)", max_length=300, blank=True)
+    locomotor_disorders = models.CharField(verbose_name="Troubles locomoteurs", max_length=300, blank=True)
+    past_treatments = models.CharField(verbose_name="Traitements passés", max_length=300, blank=True)
+    current_treatments = models.CharField(verbose_name="Traitements actuels", max_length=300, blank=True)
+    behaviour = models.CharField(verbose_name="Comportement", max_length=300, blank=True)
+    other = models.CharField(verbose_name="Autres", max_length=300, blank=True)
+
+
 class Animal(models.Model):
     update_date = models.DateField(verbose_name="Date de mise à jour", auto_now=True)
     name = models.CharField(verbose_name="Nom", max_length=150)
@@ -67,3 +88,13 @@ class Animal(models.Model):
     )
     # Uniquement pour les chevaux
     meadow_address = models.CharField(verbose_name="Adresse du pré", max_length=300, blank=True)
+    medical_info = models.OneToOneField(MedicalInfo, on_delete=models.PROTECT)
+
+    def save(self, *args, **kwargs):
+        # Initialisation des infos de santé à la création
+        if self._state.adding:
+            info = MedicalInfo.objects.create()
+            self.medical_info = info
+        return super(Animal, self).save(*args, **kwargs)
+
+

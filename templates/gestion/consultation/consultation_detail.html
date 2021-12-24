@@ -1,0 +1,46 @@
+{% extends "gestion/base.html" %}
+{% block content %}
+<div class="row p-4">
+    <div class="col-sm-12 mt-3">
+        <div class="card">
+            <div class="card-header">
+                Consultation du {{consultation.date}}
+                <a href= "{% url 'update_consultation' consultation.id %}" class="close">
+                    <i class="fas fa-pen"></i>
+                </a>
+                </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Animal concerné </strong> :
+                        <a href = "{% url 'detail_animal' consultation.animal.id %}">
+                            {{consultation.animal.name}}
+                        </a> <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Motif de Consultation </strong>
+                        : {{consultation.reason}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <strong> Date de l’accident ou de l’apparition des symptômes </strong>
+                        : {{consultation.date_accident|default:"-"}} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Durée des symptômes </strong>
+                        : {{consultation.symptoms_duration}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <strong> Bilan ostéopathique </strong> : {{consultation.summary}} <br>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
