@@ -41,6 +41,9 @@
                     <li class="nav-item {% if selected == 'animals' %}active{% endif %}">
                         <a class="nav-link" href="{% url 'animals' %}">Animaux</a>
                     </li>
+                    <li class="nav-item {% if selected == 'consultations' %}active{% endif %}">
+                        <a class="nav-link" href="{% url 'consultations' %}">Consultations</a>
+                    </li>
 
                     <li class="nav-item {% if selected == 'persons' %}active{% endif %}">
                         <a class="nav-link" href="{% url 'persons' %}">Propriétaires</a>

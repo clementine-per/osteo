@@ -16,3 +16,6 @@ class Consultation(models.Model):
         verbose_name="Animal",
         on_delete=models.PROTECT,
     )
+
+    def __str__(self):
+        return "Consultation du " + self.date.strftime("%d/%m/%Y")

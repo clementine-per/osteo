@@ -1,0 +1,73 @@
+{% extends "gestion/base.html" %}
+{% load tag %}
+{% block content %}
+
+<div class="row p-4">
+    <div class="col-sm-12 mt-3">
+        <div class="card">
+            <div class="card-header">
+                Recherche
+            </div>
+		<form action = "{% url 'consultations' %}" method="post">
+            <div class="card-body">
+                {%csrf_token %}
+                <div class="row">
+                    <div class="col-md-8">
+                        {{ form.date_min.label_tag }} {{ form.date_min }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form.date_max.label_tag }} {{ form.date_max }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+		    		    {{ form.animal.label_tag }}
+                    </div>
+                    <div class="col-sm-8">
+                        {{ form.animal }}
+                    </div>
+                </div>
+                <div class="text-right">
+                    <button class="btn btn-info" type="submit"> <i class="fa fa-search" aria-hidden="true"></i> Rechercher</button>
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+{{nb_results}} résultat(s)
+<div class="table-responsive-sm p-4">
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th scope="col">Consultation</th>
+            <th scope="col">Animal</th>
+            <th scope="col">Motif</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for consult in consultation_list %}
+        <tr class="table-info">
+            <td><a href= "{% url 'detail_consultation' consult.id %}">{{consult}}</a></td>
+            <td><a href= "{% url 'detail_animal' consult.animal.id %}">{{consult.animal.name}}</a></td>
+            <td>{{consult.reason}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="pagination">
+        {% if consultation_list.has_previous %}
+        <a href="?{% param_replace page=consultation_list.previous_page_number%}">Précédente</a> -
+        {% endif %}
+
+        <span class="current">
+            Page {{ consultation_list.number }} sur {{ consultation_list.paginator.num_pages }}
+        </span>
+
+        {% if consultation_list.has_next %}
+        - <a href="?{% param_replace page=consultation_list.next_page_number%}">Suivante</a>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

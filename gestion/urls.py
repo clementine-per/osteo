@@ -25,6 +25,7 @@ urlpatterns = [
     ),
     path("animals/medical_info/update/<int:pk>/", animal.UpdateMedicalInfo.as_view(), name="update_medical_info"),
     # Consultations
+    path("consultations/", consultation.search_consultation, name="consultations"),
     path("consultations/create/<int:pk>/", consultation.create_consultation, name="create_consultation"),
     path("consultations/update/<int:pk>/", consultation.UpdateConsultation.as_view(), name="update_consultation"),
     path(

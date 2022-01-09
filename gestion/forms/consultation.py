@@ -1,6 +1,17 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, DateField, Form, CharField
 
+from gestion.forms import DateInput
 from gestion.models.consultation import Consultation
+
+
+class ConsultationSearchForm(Form):
+    date_min = DateField(
+        label="Date de consultation entre le", required=False, widget=DateInput()
+    )
+    date_max = DateField(
+        label="et le", required=False, widget=DateInput()
+    )
+    animal = CharField(required=False, max_length=150)
 
 
 class ConsultationForm(ModelForm):
