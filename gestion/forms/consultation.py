@@ -14,6 +14,7 @@ class ConsultationForm(ModelForm):
             "reason",
             "symptoms_duration",
             "summary",
+            "comments",
         )
 
     def __init__(self, *args, **kwargs):

@@ -42,11 +42,10 @@ class MedicalInfo(models.Model):
         verbose_name="Traité(e) APE/API",
         choices=[(tag.name, tag.value) for tag in OuiNonChoice],
     )
-    antecedents = models.CharField(verbose_name="Antécédents médicaux", max_length=300, blank=True)
-    surgeries = models.CharField(verbose_name="Chirurgie(s)", max_length=300, blank=True)
+    antecedents = models.TextField(verbose_name="Antécédents médicaux", max_length=300, blank=True)
+    surgeries = models.TextField(verbose_name="Chirurgie(s)", max_length=300, blank=True)
     locomotor_disorders = models.CharField(verbose_name="Troubles locomoteurs", max_length=300, blank=True)
-    past_treatments = models.CharField(verbose_name="Traitements passés", max_length=300, blank=True)
-    current_treatments = models.CharField(verbose_name="Traitements actuels", max_length=300, blank=True)
+    treatments = models.TextField(verbose_name="Traitements", max_length=300, blank=True)
     behaviour = models.CharField(verbose_name="Comportement", max_length=300, blank=True)
     other = models.CharField(verbose_name="Autres", max_length=300, blank=True)
 
@@ -77,9 +76,6 @@ class Animal(models.Model):
         max_length=3,
         verbose_name="Stérilisé(e)",
         choices=[(tag.name, tag.value) for tag in OuiNonChoice],
-    )
-    identification = models.CharField(
-        max_length=150, verbose_name="Numéro d'identification", blank=True
     )
     proprietaire = models.ForeignKey(
         Person,

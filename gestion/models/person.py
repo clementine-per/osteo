@@ -11,7 +11,7 @@ class Person(models.Model):
     postal_code_regex = RegexValidator(
         regex="^[0-9]*$", message="Veuillez entrer un code postal valide."
     )
-    postal_code = models.CharField(validators=[postal_code_regex], max_length=5)
+    postal_code = models.CharField(verbose_name="Code postal", validators=[postal_code_regex], max_length=5)
     city = models.CharField(verbose_name="Ville",max_length=100)
     telephone_regex = RegexValidator(
         regex="[0-9]{10}", message="Veuillez entrer un numéro de téléphone valide."

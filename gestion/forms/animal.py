@@ -33,7 +33,6 @@ class AnimalForm(ModelForm):
             "birth_date",
             "adoption_age",
             "sterilised",
-            "identification",
             "meadow_address",
         )
 
@@ -55,8 +54,7 @@ class MedicalInfoForm(ModelForm):
             "antecedents",
             "surgeries",
             "locomotor_disorders",
-            "past_treatments",
-            "current_treatments",
+            "treatments",
             "behaviour",
             "other",
         )

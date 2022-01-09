@@ -36,9 +36,6 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <strong> Identification </strong> : {{animal.identification}} <br>
-                    </div>
-                    <div class="col-sm-6">
                         <strong> Date de naissance </strong> : {{animal.birth_date|date:'d F Y'|default:" - "}} <br>
                     </div>
                 </div>
@@ -112,13 +109,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
-                        <strong> Traitements passés </strong>
-                        : {{animal.medical_info.past_treatments}} <br>
-                    </div>
-                    <div class="col-sm-6">
-                        <strong> Traitements actuels </strong>
-                        : {{animal.medical_info.current_treatments}} <br>
+                    <div class="col">
+                        <strong> Traitements </strong>
+                        : {{animal.medical_info.treatments}} <br>
                     </div>
                 </div>
                 <div class="row">
@@ -150,6 +143,7 @@
                             <th scope="col">Date</th>
                             <th scope="col">Motif de Consultation</th>
                             <th scope="col">Bilan ostéopathique</th>
+                            <th scope="col">Commentaires</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -162,6 +156,7 @@
                             </td>
                             <td>{{consultation.reason}}</td>
                             <td>{{consultation.summary}}</td>
+                            <td>{{consultation.comments}}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
