@@ -29,6 +29,7 @@ class AnimalForm(ModelForm):
             "living_place",
             "food",
             "activities",
+            "comment",
             "origin",
             "birth_date",
             "adoption_age",

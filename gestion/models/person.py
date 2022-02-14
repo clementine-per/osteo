@@ -6,7 +6,7 @@ class Person(models.Model):
     update_date = models.DateField(verbose_name="Date de mise à jour", auto_now=True)
     first_name = models.CharField(verbose_name="Prénom",max_length=30)
     last_name = models.CharField(verbose_name="Nom",max_length=150)
-    email = models.EmailField(max_length=150)
+    email = models.EmailField(max_length=150, blank=True)
     address = models.CharField(verbose_name="Adresse", max_length=500)
     postal_code_regex = RegexValidator(
         regex="^[0-9]*$", message="Veuillez entrer un code postal valide."

@@ -42,7 +42,7 @@ class MedicalInfo(models.Model):
         verbose_name="Traité(e) APE/API",
         choices=[(tag.name, tag.value) for tag in OuiNonChoice],
     )
-    antecedents = models.TextField(verbose_name="Antécédents médicaux", max_length=300, blank=True)
+    antecedents = models.TextField(verbose_name="Antécédents médicaux", max_length=500, blank=True)
     surgeries = models.TextField(verbose_name="Chirurgie(s)", max_length=300, blank=True)
     locomotor_disorders = models.CharField(verbose_name="Troubles locomoteurs", max_length=300, blank=True)
     treatments = models.TextField(verbose_name="Traitements", max_length=300, blank=True)
@@ -61,6 +61,7 @@ class Animal(models.Model):
         max_length=50,
         choices=[(tag.name, tag.value) for tag in OriginChoice],
     )
+    comment = models.TextField(verbose_name="Commentaire", blank=True, max_length=200)
     birth_date = models.DateField(verbose_name="Date de naissance", null=True, blank=True)
     adoption_age = models.CharField(verbose_name="Age d'adoption", max_length=50, blank=True)
     sex = models.CharField( verbose_name="Sexe",
