@@ -1,4 +1,5 @@
 __pycache__
+/osteopathe/__pycache__
 migrations
 db.sqlite3
 /gestion/__pycache__/urls.cpython-310.pyc
@@ -8,3 +9,5 @@ db.sqlite3
 /gestion/migrations/__pycache__/0001_initial.cpython-310.pyc
 /gestion/models/__pycache__/animal.cpython-310.pyc
 /gestion/views/__pycache__/animals.cpython-310.pyc
+venv
+/.idea/vcs.xml

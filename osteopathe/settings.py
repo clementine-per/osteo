@@ -124,3 +124,5 @@ STATIC_URL = '/static/'
 TEMPLATES_DIR = os.path.join(BASE_DIR, "/templates/")
 
 LANGUAGE_CODE = "fr"
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
