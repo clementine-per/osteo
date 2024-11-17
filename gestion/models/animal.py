@@ -42,7 +42,7 @@ class MedicalInfo(models.Model):
         verbose_name="Traité(e) APE/API",
         choices=[(tag.name, tag.value) for tag in OuiNonChoice],
     )
-    antecedents = models.TextField(verbose_name="Antécédents médicaux", max_length=500, blank=True)
+    antecedents = models.TextField(verbose_name="Antécédents médicaux", max_length=1000, blank=True)
     surgeries = models.TextField(verbose_name="Chirurgie(s)", max_length=300, blank=True)
     locomotor_disorders = models.CharField(verbose_name="Troubles locomoteurs", max_length=300, blank=True)
     treatments = models.TextField(verbose_name="Traitements", max_length=300, blank=True)
