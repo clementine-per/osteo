@@ -1,5 +1,6 @@
 from django.core.validators import RegexValidator
 from django.db import models
+from gestion.models.consultation import Consultation
 
 
 class Person(models.Model):
@@ -30,3 +31,17 @@ class Person(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+    def get_all_consultations(self):
+        return Consultation.objects.filter(animal__proprietaire=self)
+
+    def get_first_consultation_date(self):
+        first_consultation = self.get_all_consultations().order_by('date').first()
+        return first_consultation.date if first_consultation else None
+
+    def get_last_consultation_date(self):
+        last_consultation = self.get_all_consultations().order_by('-date').first()
+        return last_consultation.date if last_consultation else None
+
+    def get_total_consultations(self):
+        return self.get_all_consultations().count()

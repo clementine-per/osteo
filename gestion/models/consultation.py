@@ -1,7 +1,5 @@
 from django.db import models
 
-from gestion.models.animal import Animal
-
 
 class Consultation(models.Model):
     date = models.DateField()
@@ -12,10 +10,22 @@ class Consultation(models.Model):
     summary = models.TextField(verbose_name="Bilan ostéopathique", max_length=500, blank=True)
     comments = models.CharField(verbose_name="Commentaires", max_length=500, blank=True)
     animal = models.ForeignKey(
-        Animal,
+        'gestion.Animal',
         verbose_name="Animal",
         on_delete=models.PROTECT,
     )
 
     def __str__(self):
         return "Consultation du " + self.date.strftime("%d/%m/%Y")
+
+    @staticmethod
+    def get_first_consultation(animal):
+        return Consultation.objects.filter(animal=animal).order_by('date').first()
+
+    @staticmethod
+    def get_last_consultation(animal):
+        return Consultation.objects.filter(animal=animal).order_by('-date').first()
+
+    @staticmethod
+    def get_consultation_count(animal):
+        return Consultation.objects.filter(animal=animal).count()
