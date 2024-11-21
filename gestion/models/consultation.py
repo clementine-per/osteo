@@ -18,14 +18,3 @@ class Consultation(models.Model):
     def __str__(self):
         return "Consultation du " + self.date.strftime("%d/%m/%Y")
 
-    @staticmethod
-    def get_first_consultation(animal):
-        return Consultation.objects.filter(animal=animal).order_by('date').first()
-
-    @staticmethod
-    def get_last_consultation(animal):
-        return Consultation.objects.filter(animal=animal).order_by('-date').first()
-
-    @staticmethod
-    def get_consultation_count(animal):
-        return Consultation.objects.filter(animal=animal).count()
