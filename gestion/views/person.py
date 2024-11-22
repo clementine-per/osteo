@@ -4,6 +4,10 @@ from django.core.paginator import Paginator, EmptyPage
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
+from django.http import HttpResponse
+from django.utils.timezone import now
+from datetime import timedelta
+import csv
 
 from gestion.forms.person import PersonForm, PersonSearchForm
 from gestion.models.person import Person
@@ -43,6 +47,25 @@ def person_list(request):
         person_list = paginator.page(paginator.num_pages())
 
     return render(request, "gestion/person/person_list.html", locals())
+
+@login_required
+def export_new_clients_emails(request):
+    current_date = now()
+    first_day_of_month = current_date.replace(day=1)
+    last_day_of_month = current_date.replace(
+        day=1, month=current_date.month + 1 if current_date.month < 12 else 1
+    ) - timedelta(days=1)
+    new_clients = Person.objects.filter(
+        create_date__gte=first_day_of_month,
+        create_date__lte=last_day_of_month
+    )
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="new_clients_emails.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['Email'])
+    for client in new_clients:
+        writer.writerow([client.email])
+    return response
 
 class CreatePerson(LoginRequiredMixin, CreateView):
     model = Person

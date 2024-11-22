@@ -6,6 +6,7 @@ from gestion.models.animal import Animal
 from gestion.models.consultation import Consultation
 from gestion.models.person import Person
 from gestion.views import home, animal, person, consultation
+from gestion.views.person import export_new_clients_emails
 
 urlpatterns = [
     path("", home, name="accueil"),
@@ -53,4 +54,5 @@ urlpatterns = [
         ),
         name="detail_person",
     ),
+    path('export-new-clients/', export_new_clients_emails, name='export_new_clients_emails'),
 ]
