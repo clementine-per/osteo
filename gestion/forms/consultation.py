@@ -1,4 +1,4 @@
-from django.forms import ModelForm, DateField, Form, CharField
+from django.forms import ModelForm, DateField, Form, CharField, ChoiceField
 
 from gestion.forms import DateInput
 from gestion.models.consultation import Consultation
@@ -12,6 +12,16 @@ class ConsultationSearchForm(Form):
         label="et le", required=False, widget=DateInput()
     )
     animal = CharField(required=False, max_length=150)
+    lieu = ChoiceField(
+        choices=[
+            ("", "Tous les lieux"),
+            ("DOMICILE", "Domicile"),
+            ("CABINET", "Cabinet"),
+            ("ECURIE", "Écurie"),
+        ],
+        required=False,
+        label="Lieu de Consultation"
+    )
 
 
 class ConsultationForm(ModelForm):
@@ -26,6 +36,7 @@ class ConsultationForm(ModelForm):
             "symptoms_duration",
             "summary",
             "comments",
+            "lieu",
         )
 
     def __init__(self, *args, **kwargs):

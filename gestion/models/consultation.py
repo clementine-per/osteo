@@ -1,7 +1,12 @@
 from django.db import models
 
 from gestion.models.animal import Animal
+from enum import Enum
 
+class ConsultationLieuChoice(Enum):
+    DOMICILE = "Domicile"
+    CABINET = "Cabinet"
+    ECURIE = "Écurie"
 
 class Consultation(models.Model):
     date = models.DateField()
@@ -15,6 +20,14 @@ class Consultation(models.Model):
         Animal,
         verbose_name="Animal",
         on_delete=models.PROTECT,
+    )
+    lieu = models.CharField(
+        max_length=30,
+        verbose_name="Lieu de Consultation",
+        choices=[(choice.name, choice.value) for choice in ConsultationLieuChoice],
+        null=True,
+        blank=True
+
     )
 
     def __str__(self):
