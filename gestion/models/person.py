@@ -6,7 +6,7 @@ from gestion.models.consultation import Consultation
 
 class Person(models.Model):
     update_date = models.DateField(verbose_name="Date de mise à jour", auto_now=True)
-    create_date = models.DateField(verbose_name="Date de création", auto_now_add=True, default=timezone.now)
+    create_date = models.DateField(verbose_name="Date de création", auto_now_add=True, null=True)
     first_name = models.CharField(verbose_name="Prénom",max_length=30)
     last_name = models.CharField(verbose_name="Nom",max_length=150)
     email = models.EmailField(max_length=150, blank=True)

@@ -1,5 +1,4 @@
 from django.db import models
-from gestion.models.animal import Animal
 from enum import Enum
 
 class ConsultationLieuChoice(Enum):
