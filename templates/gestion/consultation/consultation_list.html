@@ -27,6 +27,14 @@
                         {{ form.animal }}
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-4">
+		    		    {{ form.lieu.label_tag }}
+                    </div>
+                    <div class="col-sm-8">
+                        {{ form.lieu }}
+                    </div>
+                </div>
                 <div class="text-right">
                     <button class="btn btn-info" type="submit"> <i class="fa fa-search" aria-hidden="true"></i> Rechercher</button>
                 </div>
@@ -43,6 +51,7 @@
             <th scope="col">Consultation</th>
             <th scope="col">Animal</th>
             <th scope="col">Motif</th>
+            <th scope="col">Lieu</th>
         </tr>
         </thead>
         <tbody>
@@ -51,6 +60,7 @@
             <td><a href= "{% url 'detail_consultation' consult.id %}">{{consult}}</a></td>
             <td><a href= "{% url 'detail_animal' consult.animal.id %}">{{consult.animal.name}}</a></td>
             <td>{{consult.reason}}</td>
+            <td>{{consult.lieu}}</td>
         </tr>
         {% endfor %}
         </tbody>
