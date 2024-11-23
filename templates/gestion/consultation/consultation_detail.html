@@ -18,6 +18,12 @@
                         </a> <br>
                     </div>
                     <div class="col-sm-6">
+                        <strong> Propriétaire </strong> :
+                        <a href = "{% url 'detail_person' consultation.animal.proprietaire.id %}">
+                            {{consultation.animal.proprietaire}}
+                        </a> <br>
+                    </div>
+                    <div class="col-sm-6">
                         <strong> Motif de Consultation </strong>
                         : {{consultation.reason}} <br>
                     </div>
@@ -35,6 +41,11 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <strong> Bilan ostéopathique </strong> : {{consultation.summary}} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <strong> Lieu de Consultation </strong> : {{consultation.lieu}} <br>
                     </div>
                 </div>
                 <div class="row">

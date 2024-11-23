@@ -36,6 +36,22 @@
                         <strong> Commentaire </strong> : {{person.commentaire}} <br>
                     </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-sm-6">
+                        <strong> Date de première consultation </strong> :
+                        {{ person.get_first_consultation_date|date:"d/m/Y"|default:" - " }} <br>
+                    </div>
+                    <div class="col-sm-6">
+                        <strong> Date de dernière consultation </strong> :
+                        {{ person.get_last_consultation_date|date:"d/m/Y"|default:" - " }} <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <strong> Nombre de consultations </strong> :
+                        {{ person.get_total_consultations }} <br>
+                    </div>
+                </div>
 
             </div>
         </div>

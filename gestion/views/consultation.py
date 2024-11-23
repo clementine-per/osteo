@@ -28,6 +28,7 @@ def search_consultation(request):
         date_min_form = request.GET.get("date_min", "")
         date_max_form = request.GET.get("date_max", "")
         animal_form = request.GET.get("animal", "")
+        lieu_form = request.GET.get("lieu", "")
         if date_min_form:
             form.fields["date_min"].initial = date_min_form
             consultations = consultations.filter(date__gte=parse_date(date_min_form))
@@ -37,6 +38,9 @@ def search_consultation(request):
         if animal_form:
             form.fields["animal"].initial = animal_form
             consultations = consultations.filter(animal__name__icontains=animal_form)
+        if lieu_form:
+            form.fields["lieu"].initial = lieu_form
+            consultations = consultations.filter(lieu=lieu_form)
 
         # Pagination : 20 éléments par page
         paginator = Paginator(consultations.order_by("-date"), 20)
