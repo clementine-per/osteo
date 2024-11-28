@@ -14,4 +14,5 @@ class PersonForm(ModelForm):
         model = Person
         fields = ("first_name", "last_name",\
                  "email", "address", "postal_code",\
-                 "city","telephone", "commentaire")
+                 "city","telephone", "commentaire",
+                 "professionnel_monde_animalier")
