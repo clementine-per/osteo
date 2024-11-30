@@ -26,6 +26,11 @@ class Person(models.Model):
         verbose_name="Desactivé (Ne cocher que si vous ne souhaitez\
                                        plus gérer cette personne dans l'application) ",
     )
+    professionnel_monde_animalier = models.CharField(
+        max_length=100,
+        blank=True,
+        verbose_name="Professionnel du monde animalier"
+    )
 
 
     def get_complete_address(self):
