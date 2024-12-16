@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.utils.timezone import now
 from datetime import timedelta
 import csv
+from unicodedata import normalize
 
 from gestion.forms.person import PersonForm, PersonSearchForm
 from gestion.models.person import Person
@@ -29,12 +30,21 @@ def person_list(request):
         form = PersonSearchForm()
         last_name_form = request.GET.get("last_name", "")
         city_form = request.GET.get("city", "")
+        postal_code_form = request.GET.get("postal_code", "")
+        telephone_form = request.GET.get("telephone", "")
         if last_name_form:
             form.fields["last_name"].initial = last_name_form
             persons = persons.filter(last_name__icontains=last_name_form)
         if city_form:
             form.fields["city"].initial = city_form
-            persons = persons.filter(city__icontains=city_form)
+            normalized_city = normalize("NFD", city_form).encode("ascii", "ignore").decode("utf-8").lower()
+            persons = persons.filter(city__icontains=normalized_city)
+        if postal_code_form:
+            form.fields["postal_code"].initial = postal_code_form
+            persons = persons.filter(postal_code__icontains=postal_code_form)
+        if telephone_form:
+            form.fields["telephone"].initial = telephone_form
+            persons = persons.filter(telephone__icontains=telephone_form)
     # Pagination : 20 éléments par page
     paginator = Paginator(persons.order_by("-update_date"), 20)
     try:
