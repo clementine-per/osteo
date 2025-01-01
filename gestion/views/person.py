@@ -37,16 +37,19 @@ def person_list(request):
             persons = persons.filter(last_name__icontains=last_name_form)
         if city_form:
             form.fields["city"].initial = city_form
-            normalized_city = normalize("NFD", city_form).encode("ascii", "ignore").decode("utf-8").lower()
-            persons = persons.filter(city__icontains=normalized_city)
+            normalized_city = normalize("NFKD", city_form).encode("ascii", "ignore").decode("utf-8").lower()
+            persons = [
+                person for person in persons if normalized_city in normalize("NFKD", person.city or "").encode("ascii", "ignore").decode("utf-8").lower()
+            ]
         if postal_code_form:
             form.fields["postal_code"].initial = postal_code_form
             persons = persons.filter(postal_code__icontains=postal_code_form)
         if telephone_form:
             form.fields["telephone"].initial = telephone_form
             persons = persons.filter(telephone__icontains=telephone_form)
-    # Pagination : 20 éléments par page
-    paginator = Paginator(persons.order_by("-update_date"), 20)
+    # Pagination : Convertir en liste uniquement pour la pagination
+    person_list = list(persons) if isinstance(persons, list) else persons.order_by("-update_date")
+    paginator = Paginator(person_list, 20)
     try:
         page = request.GET.get("page")
         if not page:
