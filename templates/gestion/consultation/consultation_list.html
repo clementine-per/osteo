@@ -60,7 +60,7 @@
             <td><a href= "{% url 'detail_consultation' consult.id %}">{{consult}}</a></td>
             <td><a href= "{% url 'detail_animal' consult.animal.id %}">{{consult.animal.name}}</a></td>
             <td>{{consult.reason}}</td>
-            <td>{{consult.lieu}}</td>
+            <td>{{consult.get_lieu_display|default:" "}}</td>
         </tr>
         {% endfor %}
         </tbody>
