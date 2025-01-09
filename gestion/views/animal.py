@@ -14,7 +14,7 @@ from gestion.models.person import Person
 
 @login_required()
 def animal_list(request):
-    animals = Animal.objects.all()
+    animals = Animal.objects.filter(inactif=False)
     selected = "animals"
     title = "Liste des animaux"
     # Pagination : 20 éléments par page
@@ -30,6 +30,9 @@ def animal_list(request):
         name_form = request.GET.get("name", "")
         race_form = request.GET.get("race", "")
         type_form = request.GET.get("type", "")
+        show_inactive = request.GET.get("show_inactive", "off") == "on"
+        if show_inactive:
+            animals = Animal.objects.all()
         if name_form:
             form.fields["name"].initial = name_form
             animals = animals.filter(name__icontains=name_form)

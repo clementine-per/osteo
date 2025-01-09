@@ -1,4 +1,4 @@
-from django.forms import ModelForm, Form, CharField
+from django.forms import ModelForm, Form, CharField, BooleanField
 
 from gestion.models.person import Person
 
@@ -8,6 +8,7 @@ class PersonSearchForm(Form):
     city = CharField(max_length=150, required=False, label="Ville")
     postal_code = CharField(max_length=5, required=False, label="Code Postal")
     telephone = CharField(max_length=10, required=False, label="Numéro de Téléphone")
+    show_inactive = BooleanField(required=False, label="Afficher les éléments désactivés")
 
 class PersonForm(ModelForm):
     # Pour mettre les champs obligatoires en gras
