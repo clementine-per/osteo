@@ -31,6 +31,7 @@ class Person(models.Model):
         blank=True,
         verbose_name="Professionnel du monde animalier"
     )
+    inactif = models.BooleanField(default=False)
 
 
     def get_complete_address(self):

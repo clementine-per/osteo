@@ -18,6 +18,21 @@
                         </a><br>
                     </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-sm-12">
+                        <strong> Statut </strong> :
+                        <span id="status-badge" class="badge {% if animal.inactif %}badge-danger{% else %}badge-success{% endif %}">
+                            {% if animal.inactif %}Inactif{% else %}Actif{% endif %}
+                        </span>
+                        <button
+                            id="toggle-status-btn"
+                            class="btn btn-sm btn-outline-primary ml-3"
+                            data-url="{% url 'toggle_animal_status' animal.id %}"
+                        >
+                            Activation/Désactivation
+                        </button>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <strong> Nom </strong> : {{animal.name}} <br>
@@ -173,4 +188,41 @@
 <div class="text-right">
     <a href= "{% url 'create_consultation' animal.id %}" class="btn btn-info">Ajouter une consultation</a>
 </div>
+
+<script>
+    document.getElementById("toggle-status-btn").addEventListener("click", function (e) {
+        e.preventDefault();
+        const url = this.getAttribute("data-url");
+        if (confirm("Êtes-vous sûr de vouloir basculer le statut ?")) {
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/json",
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erreur lors de la requête.");
+                }
+                return response.json();
+            })
+            .then(data => {
+                const badge = document.getElementById("status-badge");
+                if (data.inactif) {
+                    badge.textContent = "Inactif";
+                    badge.className = "badge badge-danger";
+                } else {
+                    badge.textContent = "Actif";
+                    badge.className = "badge badge-success";
+                }
+            })
+            .catch(error => {
+                console.error("Erreur :", error);
+                alert("Une erreur est survenue.");
+            });
+        }
+    });
+</script>
+
 {% endblock %}

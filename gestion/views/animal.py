@@ -4,6 +4,8 @@ from django.core.paginator import Paginator, EmptyPage
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from gestion.forms.animal import AnimalForm, MedicalInfoForm, AnimalSearchForm
 from gestion.models.animal import Animal, MedicalInfo
@@ -98,3 +100,14 @@ class UpdateMedicalInfo(LoginRequiredMixin, UpdateView):
         context = super(UpdateMedicalInfo, self).get_context_data(**kwargs)
         context['title'] = "Mettre à jour " + str(self.object.animal.name)
         return context
+
+@login_required
+@csrf_exempt
+def toggle_animal_status(request, pk):
+    try:
+        animal = Animal.objects.get(pk=pk)
+        animal.inactif = not animal.inactif
+        animal.save()
+        return JsonResponse({"success": True, "inactif": animal.inactif})
+    except Animal.DoesNotExist:
+        return JsonResponse({"success": False, "error": "Animal introuvable"}, status=404)
