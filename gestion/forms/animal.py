@@ -1,5 +1,5 @@
 from django.db.models import BLANK_CHOICE_DASH
-from django.forms import ModelForm, Form, CharField, ChoiceField, Select
+from django.forms import ModelForm, Form, CharField, ChoiceField, Select, BooleanField
 
 from gestion.models.animal import Animal, MedicalInfo, AnimalTypeChoice
 from gestion.models.person import Person
@@ -13,6 +13,7 @@ class AnimalSearchForm(Form):
         required=False,
     )
     race = CharField(max_length=150, required=False, label="Race")
+    show_inactive = BooleanField(required=False, label="Afficher les éléments désactivés")
 
 
 class AnimalForm(ModelForm):

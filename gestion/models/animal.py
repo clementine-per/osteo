@@ -86,6 +86,7 @@ class Animal(models.Model):
     # Uniquement pour les chevaux
     meadow_address = models.CharField(verbose_name="Adresse du pré", max_length=300, blank=True)
     medical_info = models.OneToOneField(MedicalInfo, on_delete=models.PROTECT)
+    inactif = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         # Initialisation des infos de santé à la création

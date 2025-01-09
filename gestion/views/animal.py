@@ -4,6 +4,8 @@ from django.core.paginator import Paginator, EmptyPage
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, UpdateView
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from gestion.forms.animal import AnimalForm, MedicalInfoForm, AnimalSearchForm
 from gestion.models.animal import Animal, MedicalInfo
@@ -12,7 +14,7 @@ from gestion.models.person import Person
 
 @login_required()
 def animal_list(request):
-    animals = Animal.objects.all()
+    animals = Animal.objects.filter(inactif=False)
     selected = "animals"
     title = "Liste des animaux"
     # Pagination : 20 éléments par page
@@ -28,6 +30,9 @@ def animal_list(request):
         name_form = request.GET.get("name", "")
         race_form = request.GET.get("race", "")
         type_form = request.GET.get("type", "")
+        show_inactive = request.GET.get("show_inactive", "off") == "on"
+        if show_inactive:
+            animals = Animal.objects.all()
         if name_form:
             form.fields["name"].initial = name_form
             animals = animals.filter(name__icontains=name_form)
@@ -98,3 +103,14 @@ class UpdateMedicalInfo(LoginRequiredMixin, UpdateView):
         context = super(UpdateMedicalInfo, self).get_context_data(**kwargs)
         context['title'] = "Mettre à jour " + str(self.object.animal.name)
         return context
+
+@login_required
+@csrf_exempt
+def toggle_animal_status(request, pk):
+    try:
+        animal = Animal.objects.get(pk=pk)
+        animal.inactif = not animal.inactif
+        animal.save()
+        return JsonResponse({"success": True, "inactif": animal.inactif})
+    except Animal.DoesNotExist:
+        return JsonResponse({"success": False, "error": "Animal introuvable"}, status=404)

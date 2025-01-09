@@ -9,6 +9,8 @@ from django.utils.timezone import now
 from datetime import timedelta
 import csv
 from unicodedata import normalize
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from gestion.forms.person import PersonForm, PersonSearchForm
 from gestion.models.person import Person
@@ -16,7 +18,7 @@ from gestion.models.person import Person
 
 @login_required()
 def person_list(request):
-    persons = Person.objects.all()
+    persons = Person.objects.filter(inactif=False)
     selected = "persons"
     title = "Liste des propriétaires"
     if request.method == "POST":
@@ -32,6 +34,9 @@ def person_list(request):
         city_form = request.GET.get("city", "")
         postal_code_form = request.GET.get("postal_code", "")
         telephone_form = request.GET.get("telephone", "")
+        show_inactive = request.GET.get("show_inactive", "off") == "on"
+        if show_inactive:
+            persons = Person.objects.all()
         if last_name_form:
             form.fields["last_name"].initial = last_name_form
             persons = persons.filter(last_name__icontains=last_name_form)
@@ -105,3 +110,14 @@ class UpdatePerson(LoginRequiredMixin, UpdateView):
         context = super(UpdatePerson, self).get_context_data(**kwargs)
         context['title'] = "Mettre à jour " + str(self.object)
         return context
+
+@login_required
+@csrf_exempt
+def toggle_person_status(request, pk):
+    try:
+        person = Person.objects.get(pk=pk)
+        person.inactif = not person.inactif
+        person.save()
+        return JsonResponse({"success": True, "inactif": person.inactif})
+    except Person.DoesNotExist:
+        return JsonResponse({"success": False, "error": "Propriétaire introuvable"}, status=404)
