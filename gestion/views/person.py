@@ -9,6 +9,8 @@ from django.utils.timezone import now
 from datetime import timedelta
 import csv
 from unicodedata import normalize
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 from gestion.forms.person import PersonForm, PersonSearchForm
 from gestion.models.person import Person
@@ -105,3 +107,14 @@ class UpdatePerson(LoginRequiredMixin, UpdateView):
         context = super(UpdatePerson, self).get_context_data(**kwargs)
         context['title'] = "Mettre à jour " + str(self.object)
         return context
+
+@login_required
+@csrf_exempt
+def toggle_person_status(request, pk):
+    try:
+        person = Person.objects.get(pk=pk)
+        person.inactif = not person.inactif
+        person.save()
+        return JsonResponse({"success": True, "inactif": person.inactif})
+    except Person.DoesNotExist:
+        return JsonResponse({"success": False, "error": "Propriétaire introuvable"}, status=404)
