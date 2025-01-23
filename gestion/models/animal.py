@@ -1,4 +1,5 @@
 from enum import Enum
+from datetime import date
 
 from django.db import models
 
@@ -53,6 +54,7 @@ class MedicalInfo(models.Model):
 class Animal(models.Model):
     update_date = models.DateField(verbose_name="Date de mise à jour", auto_now=True)
     name = models.CharField(verbose_name="Nom", max_length=150)
+    birth_date = models.DateField(verbose_name="Date de naissance", null=True, blank=True)
     race = models.CharField(verbose_name="Race", max_length=150, blank=True)
     living_place = models.CharField(verbose_name="Lieu de vie", max_length=300, blank=True)
     food = models.CharField(verbose_name="Alimentation", max_length=300, blank=True)
@@ -87,6 +89,20 @@ class Animal(models.Model):
     meadow_address = models.CharField(verbose_name="Adresse du pré", max_length=300, blank=True)
     medical_info = models.OneToOneField(MedicalInfo, on_delete=models.PROTECT)
     inactif = models.BooleanField(default=False)
+
+    def get_age(self):
+        if not self.birth_date:
+            return "Âge non renseigné"
+        today = date.today()
+        delta = today - self.birth_date
+        years = delta.days // 365
+        months = (delta.days % 365) // 30
+        if years < 1:
+            return f"{months} mois"
+        elif months == 0:
+            return f"{years} an" if years == 1 else f"{years} ans"
+        else:
+            return f"{years} ans et {months} mois"
 
     def save(self, *args, **kwargs):
         # Initialisation des infos de santé à la création
