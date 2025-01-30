@@ -5,10 +5,14 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.utils.dateparse import parse_date
 from django.views.generic import CreateView, UpdateView
+from django.db.models import Func, CharField
+from django.db.models.functions import Lower
 
 from gestion.forms.consultation import ConsultationForm, ConsultationSearchForm
 from gestion.models.animal import Animal
 from gestion.models.consultation import Consultation
+
+from unicodedata import normalize
 
 @login_required()
 def search_consultation(request):
@@ -30,6 +34,7 @@ def search_consultation(request):
         animal_form = request.GET.get("animal", "")
         lieu_form = request.GET.get("lieu", "")
         type_animal_form = request.GET.get("type_animal", "")
+        motif_form = request.GET.get("motif", "")
         if date_min_form:
             form.fields["date_min"].initial = date_min_form
             consultations = consultations.filter(date__gte=parse_date(date_min_form))
@@ -45,6 +50,12 @@ def search_consultation(request):
         if type_animal_form:
             form.fields["type_animal"].initial = type_animal_form
             consultations = consultations.filter(animal__type=type_animal_form)
+        if motif_form:
+            form.fields["motif"].initial = motif_form
+            normalized_motif = normalize("NFKD", motif_form).encode("ascii", "ignore").decode("utf-8").lower()
+            consultations = consultations.annotate(
+                motif_clean=Lower("reason")
+            ).filter(motif_clean__icontains=normalized_motif)
 
         # Pagination : 20 éléments par page
         paginator = Paginator(consultations.order_by("-date"), 20)
@@ -90,3 +101,7 @@ class UpdateConsultation(LoginRequiredMixin, UpdateView):
         context = super(UpdateConsultation, self).get_context_data(**kwargs)
         context['title'] = "Mettre à jour une consultation de " + str(self.object.animal.name)
         return context
+
+class Unaccent(Func):
+    function = "unaccent"
+    output_field = CharField()

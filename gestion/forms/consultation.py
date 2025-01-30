@@ -37,6 +37,11 @@ class ConsultationSearchForm(Form):
         required=False,
         label="Type d'animal"
     )
+    motif = CharField(
+        required=False,
+        max_length=255,
+        label="Motif de consultation"
+    )
 
 
 class ConsultationForm(ModelForm):
