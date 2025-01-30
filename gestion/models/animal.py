@@ -54,7 +54,6 @@ class MedicalInfo(models.Model):
 class Animal(models.Model):
     update_date = models.DateField(verbose_name="Date de mise à jour", auto_now=True)
     name = models.CharField(verbose_name="Nom", max_length=150)
-    birth_date = models.DateField(verbose_name="Date de naissance", null=True, blank=True)
     race = models.CharField(verbose_name="Race", max_length=150, blank=True)
     living_place = models.CharField(verbose_name="Lieu de vie", max_length=300, blank=True)
     food = models.CharField(verbose_name="Alimentation", max_length=300, blank=True)
