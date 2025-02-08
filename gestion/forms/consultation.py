@@ -2,7 +2,7 @@ from django.forms import ModelForm, DateField, Form, CharField, ChoiceField
 
 from gestion.forms import DateInput
 from gestion.models.consultation import Consultation
-
+from gestion.models.animal import Animal, AnimalTypeChoice
 
 class ConsultationSearchForm(Form):
     date_min = DateField(
@@ -21,6 +21,16 @@ class ConsultationSearchForm(Form):
         ],
         required=False,
         label="Lieu de Consultation"
+    )
+    type_animal = ChoiceField(
+        choices=[("", "Tous les types d'animaux")] + [(tag.name, tag.value) for tag in AnimalTypeChoice],
+        required=False,
+        label="Type d'animal"
+    )
+    motif = CharField(
+        required=False,
+        max_length=255,
+        label="Motif de consultation"
     )
 
 
