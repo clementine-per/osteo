@@ -1,8 +1,74 @@
 {% extends "gestion/base.html" %}
 {% block content %}
 
-<div>
-    Ici c'est la page d'accueil!
-</div>
+<h2>Consultations par {{ form.cleaned_data.detail_type|default:"Type d’animal" }}</h2>
+
+<canvas id="statsChart" width="400" height="200"></canvas>
+
+<form method="get">
+    {{ form.as_p }}
+    <button type="submit">Mettre à jour</button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const chartData = {{ chart_data|safe }};
+
+const ctx = document.getElementById('statsChart').getContext('2d');
+const datasets = chartData.datasets.map(ds => ({
+    label: ds.label,
+    data: ds.data,
+    borderWidth: 1
+}));
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: chartData.labels,
+        datasets: datasets.map((ds, i) => ({
+            ...ds,
+            backgroundColor: `hsl(${i * 50}, 70%, 60%)`,
+            borderColor: `hsl(${i * 50}, 70%, 50%)`,
+            borderWidth: 1,
+        }))
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            title: {
+                display: true,
+                text: '{{ chart_title }}',
+                font: {
+                    size: 20
+                }
+            },
+            legend: {
+                position: 'top',
+            },
+            tooltip: {
+                mode: 'index',
+                intersect: false,
+            },
+        },
+        scales: {
+            x: {
+                stacked: true,
+                title: {
+                    display: true,
+                    text: 'Période'
+                }
+            },
+            y: {
+                stacked: true,
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Nombre de consultations'
+                }
+            }
+        }
+    }
+});
+</script>
 
 {% endblock %}
