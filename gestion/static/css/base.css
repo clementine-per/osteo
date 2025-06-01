@@ -16,5 +16,31 @@ ul.errorlist {
     border-radius: 3px;
 }
 
+.btn-info {
+    color: #fff;
+    background-color: #7bb074;
+    border-color: #7bb074;
+}
+
+.btn-info:hover {
+    color: #fff;
+    background-color: #74b085;
+    border-color: #74b085;
+}
+
+.table-info, .table-info>td, .table-info>th {
+    background-color: #ecffe9;
+}
+
+.table-info tbody+tbody, .table-info td, .table-info th, .table-info thead th {
+    border-color: #7bb074;
+}
+
+a {
+    color: #7bb074;
+    text-decoration: none;
+    background-color: transparent;
+}
+
 /* Champs required en gras */
 label.required { font-weight: bold; }
